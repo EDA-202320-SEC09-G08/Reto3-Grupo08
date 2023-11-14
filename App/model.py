@@ -168,12 +168,26 @@ def req_2(data_structs):
     pass
 
 
-def req_3(data_structs):
+def req_3(data_structs,mag_min:float,prof_max:float):
     """
     Función que soluciona el requerimiento 3
     """
     # TODO: Realizar el requerimiento 3
-    pass
+    resultado = lt.newList("ARRAY_LIST")
+    om_prof=data_structs["arbol_profundidad"]
+    om_mags = data_structs["arbol_magnitudes"]
+    om_prof=data_structs["arbol_profundidad"]
+    lista2 = om.values(om_prof, 0, prof_max)
+    lista = om.values(om_mags,mag_min,999999999999999999)
+    
+    for elem in lt.iterator(lista):
+        for eleme in lt.iterator(elem):
+            if float(eleme["depth"])<= prof_max:
+                lt.addLast(resultado,eleme)
+    quk.sort(resultado,cmp_t)
+    diccionario={"eventos": lt.size(lista2)+lt.size(lista2),
+                 "detalles": resultado}
+    return diccionario
 
 
 def req_4(data_structs,sig, gap):
@@ -280,3 +294,8 @@ def comparar_mayor_menor(data1,data2):
     
 def sort_fecha(data1, data2):
     return data1["time"] >data2["time"]
+def cmp_t(data1, data2):
+    if (data1["time"]) > (data2["time"]):
+        return True
+    else:
+        return False

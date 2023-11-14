@@ -95,12 +95,12 @@ def print_req_2(control):
     pass
 
 
-def print_req_3(control):
+def print_req_3(control,mem,mags_min,prof_max):
     """
         Función que imprime la solución del Requerimiento 3 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 3
-    pass
+    return controller.req_3(control,mem,mags_min,prof_max)
 
 
 def print_req_4(control,sig, gap):
@@ -188,7 +188,19 @@ if __name__ == "__main__":
             print_req_2(control)
 
         elif int(inputs) == 4:
-            print_req_3(control)
+            mags_min= float(input("Cual es la magnitud mínima que desea consultar: "))
+            prof_max= float(input("Cuál es la profundidad máxima que desea tener como rango: "))
+            print("Magnitud mínima: "+str(mags_min))
+            print("Profundidad máxima: "+str(prof_max))
+            data = print_req_3(control, mem, mags_min,prof_max)
+
+            print(data[0]["eventos"])
+            print(lt.size(data[0]["detalles"]))
+            lista_resultado= data[0]["detalles"]
+            
+            la_lista=lt.subList(lista_resultado,1,10)
+            header= ("code","time", "lat","long","mag","title", "depht", "cdi","mmi", "sig", "gap", "nst","magType","type")
+            tabulador(la_lista, header)
 
         elif int(inputs) == 5:
             sig= float(input(" La significancia mínima del evento a consultar:   "))

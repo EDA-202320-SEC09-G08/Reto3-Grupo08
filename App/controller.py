@@ -107,12 +107,32 @@ def req_2(control):
     pass
 
 
-def req_3(control):
+def req_3(control,mem,mags_min,prof_max):
     """
     Retorna el resultado del requerimiento 3
     """
     # TODO: Modificar el requerimiento 3
-    pass
+    start_time = get_time()
+    
+    if mem is True:
+        tracemalloc.start()
+        start_memory = get_memory()
+    
+    data_structs = control
+    resultado = model.req_3(data_structs, mags_min, prof_max)
+    
+    stop_time = get_time()
+    delta_Time = delta_time(start_time, stop_time)
+
+    if mem is True:
+        stop_memory = get_memory()
+        tracemalloc.stop()
+        delta_Memory = delta_memory(stop_memory, start_memory)
+        return resultado, delta_Time, delta_Memory
+
+    else:
+        return resultado, delta_Time
+
 
 
 def req_4(data_structs,sig, gap):
