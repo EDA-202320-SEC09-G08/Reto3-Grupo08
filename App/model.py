@@ -40,7 +40,7 @@ from DISClib.Algorithms.Sorting import selectionsort as se
 from DISClib.Algorithms.Sorting import mergesort as merg
 from DISClib.Algorithms.Sorting import quicksort as quk
 assert cf
-#import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá
@@ -232,7 +232,16 @@ def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str,segmentos: int)
     Función que soluciona el requerimiento 7
     """
     # TODO: Realizar el requerimiento 7
-    
+    mapa= data_structs["mag"]
+    sismos=lt.newList("ARRAY_LIST")
+    for fecha in lt.iterator(mapa):
+        la_fecha= fecha["time"]
+        el_anio= la_fecha[:4]
+        zona= fecha["title"]
+
+        if el_anio==anio:
+            if titulo in zona:
+                lt.addLast(sismos,fecha)
 
 
 def req_8(data_structs):
