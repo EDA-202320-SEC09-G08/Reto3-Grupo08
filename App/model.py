@@ -40,7 +40,7 @@ from DISClib.Algorithms.Sorting import selectionsort as se
 from DISClib.Algorithms.Sorting import mergesort as merg
 from DISClib.Algorithms.Sorting import quicksort as quk
 assert cf
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá
