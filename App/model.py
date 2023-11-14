@@ -285,9 +285,9 @@ def compararar_fechas(date1, date2):
     else:
         return -1
 def comparar_mayor_menor(data1,data2):
-    if data1<data2:
+    if float(data1)<float(data2):
         return -1
-    elif data1>data2:
+    elif float(data1)>float(data2):
         return 1
     else: 
         return 0
