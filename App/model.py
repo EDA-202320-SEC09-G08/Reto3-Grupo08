@@ -51,49 +51,39 @@ dos listas, una para los videos, otra para las categorias de los mismos.
 
 def new_data_structs():
     """
-    Inicializa las estructuras de datos del modelo. Las crea de
-    manera vacía para posteriormente almacenar la información.
+    Inicializa las estructuras de datos del modelo.
     """
-    #TODO: Inicializar las estructuras de datos
-    pass
-
-
-# Funciones para agregar informacion al modelo
+    data_structs = {
+        'events': []  # Lista para almacenar los eventos sísmicos
+    }
+    return data_structs
 
 def add_data(data_structs, data):
     """
-    Función para agregar nuevos elementos a la lista
+    Agrega nuevos elementos a la lista de eventos sísmicos
     """
-    #TODO: Crear la función para agregar elementos a una lista
-    pass
-
-
-# Funciones para creacion de datos
-
-def new_data(id, info):
-    """
-    Crea una nueva estructura para modelar los datos
-    """
-    #TODO: Crear la función para estructurar los datos
-    pass
-
-
-# Funciones de consulta
+    data_structs['events'].append(data)
 
 def get_data(data_structs, id):
     """
     Retorna un dato a partir de su ID
     """
-    #TODO: Crear la función para obtener un dato de una lista
-    pass
-
+    for event in data_structs['events']:
+        if event['id'] == id:
+            return event
+    return None
 
 def data_size(data_structs):
     """
-    Retorna el tamaño de la lista de datos
+    Retorna el tamaño de la lista de eventos sísmicos
     """
-    #TODO: Crear la función para obtener el tamaño de una lista
-    pass
+    return len(data_structs['events'])
+
+def sort_by_date(data_structs):
+    """
+    Ordena la lista de eventos sísmicos por fecha y hora
+    """
+    data_structs['events'].sort(key=lambda x: x['time'])
 
 
 def req_1(data_structs):

@@ -31,6 +31,7 @@ from DISClib.DataStructures import mapentry as me
 assert cf
 from tabulate import tabulate
 import traceback
+from controller import create_data_structures
 
 """
 La vista se encarga de la interacción con el usuario
@@ -45,7 +46,7 @@ def new_controller():
         Se crea una instancia del controlador
     """
     #TODO: Llamar la función del controlador donde se crean las estructuras de datos
-    pass
+    create_data_structures()
 
 
 def print_menu():
@@ -66,16 +67,35 @@ def load_data(control):
     """
     Carga los datos
     """
-    #TODO: Realizar la carga de datos
-    pass
+    filename = 'datos_temblores-large.csv'  # Nombre del archivo a cargar
+    data = load_data_from_file(filename)  # Implementar la carga de datos desde el archivo
+    for event in data[:5]:
+        print_data(event)
+    print("...")  # Se omite la impresión de los datos intermedios
+    for event in data[-5:]:
+        print_data(event)
 
-
-def print_data(control, id):
+def print_data(event):
     """
-        Función que imprime un dato dado su ID
+    Imprime los detalles de un evento sísmico
     """
-    #TODO: Realizar la función para imprimir un elemento
-    pass
+    headers = ['time', 'lat', 'long', 'depth', 'mag', 'sig', 'nst', 'gap', 'title', 'felt', 'cdi', 'mmi', 'tsunami']
+    event_values = [
+        event['time'],
+        round(event['lat'], 3),
+        round(event['long'], 3),
+        round(event['depth'], 3),
+        round(event['mag'], 3),
+        event['sig'],
+        event['nst'],
+        event['gap'],
+        event['title'],
+        event['felt'],
+        event['cdi'],
+        event['mmi'],
+        event['tsunami']
+    ]
+    print(tabulate([event_values], headers=headers, tablefmt="pretty"))
 
 def print_req_1(control):
     """

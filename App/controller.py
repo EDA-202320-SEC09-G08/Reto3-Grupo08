@@ -30,43 +30,67 @@ import tracemalloc
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
+from model import new_data_structs, add_data, sort_by_date, get_data
 
 def new_controller():
     """
     Crea una instancia del modelo
     """
-    #TODO: Llamar la función del modelo que crea las estructuras de datos
-    pass
-
-
-# Funciones para la carga de datos
+    data_structs = new_data_structs()
+    return data_structs
 
 def load_data(control, filename):
     """
     Carga los datos del reto
     """
-    # TODO: Realizar la carga de datos
-    pass
-
-
-# Funciones de ordenamiento
+    data = load_data_from_file(filename)
+    for event in data:
+        add_data(control, event)
+    return len(data)
 
 def sort(control):
     """
     Ordena los datos del modelo
     """
-    #TODO: Llamar la función del modelo para ordenar los datos
-    pass
-
-
-# Funciones de consulta sobre el catálogo
+    sort_by_date(control)
 
 def get_data(control, id):
     """
     Retorna un dato por su ID.
     """
-    #TODO: Llamar la función del modelo para obtener un dato
-    pass
+    return get_data(control, id)
+
+import csv
+
+# ... (código previo)
+
+def load_data_from_file(filename):
+    """
+    Carga los datos del archivo CSV
+    """
+    data = []
+    with open(filename, newline='', encoding='utf-8') as csvfile:
+        csv.field_size_limit(2147483647)
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            event = {
+                'time': row['time'],
+                'lat': float(row['lat']),
+                'long': float(row['long']),
+                'depth': float(row['depth']),
+                'mag': float(row['mag']),
+                'sig': int(row['sig']),
+                'nst': int(row['nst']),
+                'gap': float(row['gap']),
+                'title': row['title'],
+                'felt': int(row['felt']),
+                'cdi': float(row['cdi']),
+                'mmi': float(row['mmi']),
+                'tsunami': int(row['tsunami']),
+                'id': row['code']
+            }
+            data.append(event)
+    return data
 
 
 def req_1(control):
