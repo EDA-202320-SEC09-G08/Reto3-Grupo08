@@ -51,40 +51,105 @@ dos listas, una para los videos, otra para las categorias de los mismos.
 
 def new_data_structs():
     """
-    Inicializa las estructuras de datos del modelo.
+    Inicializa las estructuras de datos del modelo. Las crea de
+    manera vacía para posteriormente almacenar la información.
     """
-    data_structs = {
-        'events': []  # Lista para almacenar los eventos sísmicos
-    }
+    #TODO: Inicializar las estructuras de datos
+    data_structs={"cantidad_datos": None,
+                  "mapa": None}
+    data_structs["cantidad_datos"]= lt.newList("ARRAY_LIST")
+    data_structs["mapa"]= om.newMap(omaptype="BST", 
+                                    cmpfunction=compararar_fechas)
+    data_structs["arbol_magnitudes"]= om.newMap(omaptype="BST", 
+                                    cmpfunction=comparar_mayor_menor)
+    data_structs["arbol_profundidad"]=om.newMap(omaptype="BST", 
+                                    cmpfunction=comparar_mayor_menor)
+    
     return data_structs
 
-def add_data(data_structs, data):
+
+
+# Funciones para agregar informacion al modelo
+
+def add_data_mapa(data_structs, data):
     """
-    Agrega nuevos elementos a la lista de eventos sísmicos
+    Función para agregar nuevos elementos a la lista
     """
-    data_structs['events'].append(data)
+    #TODO: Crear la función para agregar elementos a una lista
+    
+    lt.addLast(data_structs["cantidad_datos"],data)
+    add_info( data_structs, data)
+    add_arbol1(data_structs["arbol_magnitudes"],data)
+    add_arbol2(data_structs["arbol_profundidad"],data)
+    return data_structs
+
+def add_info( data_structs, data):
+    
+    mapa= data_structs["mapa"]
+    tiempo = data["time"]
+    existe= om.contains(mapa, tiempo)
+    if existe==True:
+        entrada= om.get(mapa,tiempo)
+        valor= me.getValue(entrada)
+    else:
+        valor=lt.newList()
+        om.put(mapa,tiempo,valor)
+    lt.addLast(valor,data)
+    #return None
+def add_arbol1( data_structs, data):
+    mapa=data_structs
+    tiempo = data["mag"]
+    existe= om.contains(mapa, tiempo)
+    if existe==True:
+        entrada= om.get(mapa,tiempo)
+        valor= me.getValue(entrada)
+    else:
+        valor=lt.newList()
+        om.put(mapa,tiempo,valor)
+    lt.addLast(valor,data)
+
+def add_arbol2( data_structs, data):
+    mapa=data_structs
+    tiempo = data["depth"]
+    existe= om.contains(mapa, tiempo)
+    if existe==True:
+        entrada= om.get(mapa,tiempo)
+        valor= me.getValue(entrada)
+    else:
+        valor=lt.newList()
+        om.put(mapa,tiempo,valor)
+    lt.addLast(valor,data)  
+
+    
+
+
+# Funciones para creacion de datos
+
+def new_data(id, info):
+    """
+    Crea una nueva estructura para modelar los datos
+    """
+    #TODO: Crear la función para estructurar los datos
+    pass
+
+
+
+# Funciones de consulta
 
 def get_data(data_structs, id):
     """
     Retorna un dato a partir de su ID
     """
-    for event in data_structs['events']:
-        if event['id'] == id:
-            return event
-    return None
+    #TODO: Crear la función para obtener un dato de una lista
+    pass
+
 
 def data_size(data_structs):
     """
-    Retorna el tamaño de la lista de eventos sísmicos
+    Retorna el tamaño de la lista de datos
     """
-    return len(data_structs['events'])
-
-def sort_by_date(data_structs):
-    """
-    Ordena la lista de eventos sísmicos por fecha y hora
-    """
-    data_structs['events'].sort(key=lambda x: x['time'])
-
+    #TODO: Crear la función para obtener el tamaño de una lista
+    pass
 
 
 def req_1(data_structs):
@@ -183,3 +248,21 @@ def sort(data_structs):
     """
     #TODO: Crear función de ordenamiento
     pass
+def compararar_fechas(date1, date2):
+    """
+    Compara dos fechas
+    """
+    if (date1 == date2):
+        return 0
+    elif (date1 > date2):
+        return 1
+    else:
+        return -1
+def comparar_mayor_menor(data1,data2):
+    if data1<data2:
+        return -1
+    elif data1>data2:
+        return 1
+    else: 
+        return 0
+  

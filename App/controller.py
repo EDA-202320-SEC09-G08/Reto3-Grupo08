@@ -29,66 +29,66 @@ import tracemalloc
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
-from model import new_data_structs, add_data
+
 
 def new_controller():
     """
     Crea una instancia del modelo
     """
-    data_structs = new_data_structs()
-    return data_structs
+    #TODO: Llamar la función del modelo que crea las estructuras de datos
+    control=model.new_data_structs()
+    return control
 
-def load_data(control, filename):
+
+
+# Funciones para la carga de datos
+
+def load_data(control, filename,mem):
     """
-    Carga los datos del archivo CSV al modelo
+    Carga los datos del reto
     """
-    data = load_data_from_file(filename)
-    for event in data:
-        add_data(control, event)
-    return len(data)
+    # TODO: Realizar la carga de datos
+    start_time=get_time()
+    if mem is True:
+        tracemalloc.start()
+        start_memory= get_memory
+    data_structs=control
+    dt_file= cf.data_dir + "temblor/temblores-utf8"+str(filename)+".csv"
+    abrir= csv.DictReader(open(dt_file,encoding="utf-8"))
+    for data in abrir:
+        model.add_data_mapa(data_structs,data)
+    
+    
+    stop_time=get_time()
+    delta_Time= delta_time(start_time,stop_time)
+
+    if mem is True:
+        stop_memory=get_memory()
+        tracemalloc.stop()
+        delta_Memory=delta_memory(stop_memory,start_memory)
+        return data_structs,delta_Time,delta_Memory
+    else:
+        return data_structs,delta_Time
 
 
-def load_data_from_file(filename):
+# Funciones de ordenamiento
+
+def sort(control):
     """
-    Carga los datos del archivo CSV
+    Ordena los datos del modelo
     """
-    data = []
-    with open(filename, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            event = {
-                'time': row['time'],
-                'lat': float(row['lat']),
-                'long': float(row['long']),
-                'depth': float(row['depth']),
-                'mag': float(row['mag']),
-                'sig': row['sig'],
-                'nst': int(row['nst']),
-                'gap': float(row['gap']),
-                'title': row['title'],
-                'felt': int(row['felt']),
-                'cdi': float(row['cdi']),
-                'mmi': float(row['mmi']),
-                'tsunami': bool(int(row['tsunami']))  # Convertir a booleano
-            }
-            data.append(event)
-    return data
+    #TODO: Llamar la función del modelo para ordenar los datos
+    pass
 
 
+# Funciones de consulta sobre el catálogo
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+def get_data(control, id):
+    """
+    Retorna un dato por su ID.
+    """
+    #TODO: Llamar la función del modelo para obtener un dato
+    pass
 
 
 def req_1(control):

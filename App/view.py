@@ -32,7 +32,6 @@ assert cf
 from tabulate import tabulate
 import traceback
 
-
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -41,22 +40,15 @@ operación solicitada
 """
 
 
-from controller import new_controller, load_data
+def new_controller():
+    """
+        Se crea una instancia del controlador
+    """
+    #TODO: Llamar la función del controlador donde se crean las estructuras de datos
+    control = controller.new_controller()
+    return control
 
-def carga():
-    """
-    Punto de entrada principal para cargar datos y mostrar información
-    """
-    control = new_controller()
-    filename = 'datos_temblores-large.csv'  # Nombre del archivo a cargar
-    data_loaded = load_data(control, filename)
-    if data_loaded > 0:
-        print("Datos cargados exitosamente.")
-        # Aquí puedes agregar la lógica para mostrar o trabajar con los datos cargados
-        print_first_and_last_events(control)
-    else:
-        print("No se cargaron datos o hubo un error en la carga.")
-        
+
 def print_menu():
     print("Bienvenido")
     print("1- Cargar información")
@@ -70,51 +62,22 @@ def print_menu():
     print("9- Ejecutar Requerimiento 8")
     print("0- Salir")
 
-def print_first_and_last_events(control):
-    """
-    Imprime los primeros y últimos eventos cargados
-    """
-    print("Primeros 5 eventos:")
-    print("------------------------------------------------------------------------------------")
-    print_header()
-    for event in control['events'][:5]:
-        print_data(event)
-    print("...")  # Se omite la impresión de los datos intermedios
-    print("Últimos 5 eventos:")
-    print("------------------------------------------------------------------------------------")
-    print_header()
-    for event in control['events'][-5:]:
-        print_data(event)
 
-def print_header():
+def load_data(control,filename,mem):
     """
-    Imprime los encabezados de los datos
+    Carga los datos
     """
-    headers = ['time', 'lat', 'long', 'depth', 'mag', 'sig', 'nst', 'gap', 'title', 'felt', 'cdi', 'mmi', 'tsunami']
-    print(tabulate([headers], tablefmt="pretty"))
+    #TODO: Realizar la carga de datos
+    data= controller.load_data(control, filename, mem)
+    return data
 
-def print_data(event):
-    """
-    Imprime los detalles de un evento sísmico
-    """
-  
-    event_values = [
-        event['time'],
-        round(event['lat'], 3),
-        round(event['long'], 3),
-        round(event['depth'], 3),
-        round(event['mag'], 3),
-        event['sig'],
-        event['nst'],
-        event['gap'],
-        event['title'],
-        event['felt'],
-        event['cdi'],
-        event['mmi'],
-        event['tsunami']
-    ]
-    print(tabulate([event_values], tablefmt="pretty"))
 
+def print_data(control, id):
+    """
+        Función que imprime un dato dado su ID
+    """
+    #TODO: Realizar la función para imprimir un elemento
+    pass
 
 def print_req_1(control):
     """
@@ -178,18 +141,14 @@ def print_req_8(control):
     """
     # TODO: Imprimir el resultado del requerimiento 8
     pass
-def print_menu():
-    print("Bienvenido")
-    print("1- Cargar información")
-    print("2- Ejecutar Requerimiento 1")
-    print("3- Ejecutar Requerimiento 2")
-    print("4- Ejecutar Requerimiento 3")
-    print("5- Ejecutar Requerimiento 4")
-    print("6- Ejecutar Requerimiento 5")
-    print("7- Ejecutar Requerimiento 6")
-    print("8- Ejecutar Requerimiento 7")
-    print("9- Ejecutar Requerimiento 8")
-    print("0- Salir")
+def tabulador(lista,header):
+    lista_cabeza=[]
+    
+    for dato in lt.iterator(lista):
+        x= dict((k,dato[k])for k in (header) if k in dato)
+        lista_cabeza.append(x)
+    lineas=[b.values() for b in lista_cabeza]
+    print(tabulate(lineas,header,tablefmt="grid"))
 
 
 # Se crea el controlador asociado a la vista
@@ -207,7 +166,19 @@ if __name__ == "__main__":
         inputs = input('Seleccione una opción para continuar\n')
         if int(inputs) == 1:
             print("Cargando información de los archivos ....\n")
-            data = load_data(control)
+            filename = str(input("Elija el tamaño de la muestra que desea: (-5pct, -10pct, -20pct, -30pct, -50pct, -80pct, -large o -small)\n"))
+            mem = input("Desea observar el uso de memoria? (True/False)\n")
+            data = load_data(control,filename,mem)
+            print("La cantidad de datos recolectados son: "+str(lt.size(data[0]["cantidad_datos"]))+"\n")
+            print(lt.size(data[0]["cantidad_datos"])-2)
+            primeros= lt.subList(data[0]["cantidad_datos"],1,5)
+            ultimos= lt.subList(data[0]["cantidad_datos"], int(lt.size(data[0]["cantidad_datos"]))-4,5)
+            header= ("code","time", "lat","long","mag","title", "depht", "felt", "cdi","mmi","tsunami")
+            print("PRIMEROS 5 REGISTROS")
+            tabulador(primeros,header)
+            print("--------------------")
+            print("ULTIMOS REGISTROS")
+            tabulador(ultimos,header)
         elif int(inputs) == 2:
             print_req_1(control)
 
