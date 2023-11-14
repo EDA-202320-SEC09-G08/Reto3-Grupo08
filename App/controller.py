@@ -29,8 +29,7 @@ import tracemalloc
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
-
-from model import new_data_structs, add_data, sort_by_date, get_data
+from model import new_data_structs, add_data
 
 def new_controller():
     """
@@ -41,36 +40,20 @@ def new_controller():
 
 def load_data(control, filename):
     """
-    Carga los datos del reto
+    Carga los datos del archivo CSV al modelo
     """
     data = load_data_from_file(filename)
     for event in data:
         add_data(control, event)
     return len(data)
 
-def sort(control):
-    """
-    Ordena los datos del modelo
-    """
-    sort_by_date(control)
-
-def get_data(control, id):
-    """
-    Retorna un dato por su ID.
-    """
-    return get_data(control, id)
-
-import csv
-
-# ... (código previo)
 
 def load_data_from_file(filename):
     """
     Carga los datos del archivo CSV
     """
     data = []
-    with open(filename, newline='', encoding='utf-8') as csvfile:
-        csv.field_size_limit(2147483647)
+    with open(filename, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             event = {
@@ -79,18 +62,33 @@ def load_data_from_file(filename):
                 'long': float(row['long']),
                 'depth': float(row['depth']),
                 'mag': float(row['mag']),
-                'sig': int(row['sig']),
+                'sig': row['sig'],
                 'nst': int(row['nst']),
                 'gap': float(row['gap']),
                 'title': row['title'],
                 'felt': int(row['felt']),
                 'cdi': float(row['cdi']),
                 'mmi': float(row['mmi']),
-                'tsunami': int(row['tsunami']),
-                'id': row['code']
+                'tsunami': bool(int(row['tsunami']))  # Convertir a booleano
             }
             data.append(event)
     return data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def req_1(control):

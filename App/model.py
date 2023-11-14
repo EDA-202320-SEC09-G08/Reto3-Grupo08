@@ -86,6 +86,7 @@ def sort_by_date(data_structs):
     data_structs['events'].sort(key=lambda x: x['time'])
 
 
+
 def req_1(data_structs):
     """
     Función que soluciona el requerimiento 1

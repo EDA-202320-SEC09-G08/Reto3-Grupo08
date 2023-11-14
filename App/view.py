@@ -31,7 +31,7 @@ from DISClib.DataStructures import mapentry as me
 assert cf
 from tabulate import tabulate
 import traceback
-from controller import create_data_structures
+
 
 """
 La vista se encarga de la interacción con el usuario
@@ -41,45 +41,50 @@ operación solicitada
 """
 
 
-def new_controller():
-    """
-        Se crea una instancia del controlador
-    """
-    #TODO: Llamar la función del controlador donde se crean las estructuras de datos
-    create_data_structures()
+from controller import new_controller, load_data
 
-
-def print_menu():
-    print("Bienvenido")
-    print("1- Cargar información")
-    print("2- Ejecutar Requerimiento 1")
-    print("3- Ejecutar Requerimiento 2")
-    print("4- Ejecutar Requerimiento 3")
-    print("5- Ejecutar Requerimiento 4")
-    print("6- Ejecutar Requerimiento 5")
-    print("7- Ejecutar Requerimiento 6")
-    print("8- Ejecutar Requerimiento 7")
-    print("9- Ejecutar Requerimiento 8")
-    print("0- Salir")
-
-
-def load_data(control):
+def main():
     """
-    Carga los datos
+    Punto de entrada principal para cargar datos y mostrar información
     """
+    control = new_controller()
     filename = 'datos_temblores-large.csv'  # Nombre del archivo a cargar
-    data = load_data_from_file(filename)  # Implementar la carga de datos desde el archivo
-    for event in data[:5]:
+    data_loaded = load_data(control, filename)
+    if data_loaded > 0:
+        print("Datos cargados exitosamente.")
+        # Aquí puedes agregar la lógica para mostrar o trabajar con los datos cargados
+        print_first_and_last_events(control)
+    else:
+        print("No se cargaron datos o hubo un error en la carga.")
+
+def print_first_and_last_events(control):
+    """
+    Imprime los primeros y últimos eventos cargados
+    """
+    print("Primeros 5 eventos:")
+    print("------------------------------------------------------------------------------------")
+    print_header()
+    for event in control['events'][:5]:
         print_data(event)
     print("...")  # Se omite la impresión de los datos intermedios
-    for event in data[-5:]:
+    print("Últimos 5 eventos:")
+    print("------------------------------------------------------------------------------------")
+    print_header()
+    for event in control['events'][-5:]:
         print_data(event)
+
+def print_header():
+    """
+    Imprime los encabezados de los datos
+    """
+    headers = ['time', 'lat', 'long', 'depth', 'mag', 'sig', 'nst', 'gap', 'title', 'felt', 'cdi', 'mmi', 'tsunami']
+    print(tabulate([headers], tablefmt="pretty"))
 
 def print_data(event):
     """
     Imprime los detalles de un evento sísmico
     """
-    headers = ['time', 'lat', 'long', 'depth', 'mag', 'sig', 'nst', 'gap', 'title', 'felt', 'cdi', 'mmi', 'tsunami']
+  
     event_values = [
         event['time'],
         round(event['lat'], 3),
@@ -95,7 +100,8 @@ def print_data(event):
         event['mmi'],
         event['tsunami']
     ]
-    print(tabulate([event_values], headers=headers, tablefmt="pretty"))
+    print(tabulate([event_values], tablefmt="pretty"))
+
 
 def print_req_1(control):
     """
