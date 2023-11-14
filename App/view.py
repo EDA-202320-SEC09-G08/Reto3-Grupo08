@@ -43,7 +43,7 @@ operación solicitada
 
 from controller import new_controller, load_data
 
-def main():
+def carga():
     """
     Punto de entrada principal para cargar datos y mostrar información
     """
@@ -56,6 +56,19 @@ def main():
         print_first_and_last_events(control)
     else:
         print("No se cargaron datos o hubo un error en la carga.")
+        
+def print_menu():
+    print("Bienvenido")
+    print("1- Cargar información")
+    print("2- Ejecutar Requerimiento 1")
+    print("3- Ejecutar Requerimiento 2")
+    print("4- Ejecutar Requerimiento 3")
+    print("5- Ejecutar Requerimiento 4")
+    print("6- Ejecutar Requerimiento 5")
+    print("7- Ejecutar Requerimiento 6")
+    print("8- Ejecutar Requerimiento 7")
+    print("9- Ejecutar Requerimiento 8")
+    print("0- Salir")
 
 def print_first_and_last_events(control):
     """
