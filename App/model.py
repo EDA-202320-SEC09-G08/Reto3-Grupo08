@@ -176,12 +176,24 @@ def req_3(data_structs):
     pass
 
 
-def req_4(data_structs):
+def req_4(data_structs,sig, gap):
     """
     Función que soluciona el requerimiento 4
     """
     # TODO: Realizar el requerimiento 4
-    pass
+    lista= lt.newList()
+    mapa=data_structs["fechaIndex"]
+    while lt.size(lista)< 15:
+        mayor=om.maxKey(mapa)
+        for x in om.get(mapa, mayor)["value"]:
+            if int(x["sig"])> sig and int(x["gap"])< gap:
+                lt.addLast(lista,x)
+        mapa= om.deleteMax(mapa)
+    if lt.size(lista)>15:
+        merg.sort(lista, sort_fecha)
+        lista= lt.subList(lista,1,15)
+    merg.sort(lista, sort_fecha)
+    return lista
 
 
 def req_5(data_structs):
@@ -265,4 +277,6 @@ def comparar_mayor_menor(data1,data2):
         return 1
     else: 
         return 0
-  
+    
+def sort_fecha(data1, data2):
+    return data1["time"] >data2["time"]

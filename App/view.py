@@ -29,7 +29,7 @@ from DISClib.ADT import queue as qu
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 assert cf
-from tabulate import tabulate
+
 import traceback
 
 """
@@ -103,12 +103,14 @@ def print_req_3(control):
     pass
 
 
-def print_req_4(control):
+def print_req_4(control,sig, gap):
     """
         Función que imprime la solución del Requerimiento 4 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 4
-    pass
+    res= controller.req_4(control,sig, gap)
+
+    print(tabulate(lt.iterator(res)))
 
 
 def print_req_5(control):
@@ -189,7 +191,9 @@ if __name__ == "__main__":
             print_req_3(control)
 
         elif int(inputs) == 5:
-            print_req_4(control)
+            sig= float(input(" La significancia mínima del evento a consultar:   "))
+            gap= float(input(" La distancia azimutal máxima del evento a consultar:   "))
+            print_req_4(control, sig, gap)
 
         elif int(inputs) == 6:
             print_req_5(control)
