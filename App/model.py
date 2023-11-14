@@ -40,6 +40,7 @@ from DISClib.Algorithms.Sorting import selectionsort as se
 from DISClib.Algorithms.Sorting import mergesort as merg
 from DISClib.Algorithms.Sorting import quicksort as quk
 assert cf
+import matplotlib.pyplot as plt
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá
@@ -226,12 +227,12 @@ def req_6(data_structs):
     pass
 
 
-def req_7(data_structs):
+def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str,segmentos: int):
     """
     Función que soluciona el requerimiento 7
     """
     # TODO: Realizar el requerimiento 7
-    pass
+    
 
 
 def req_8(data_structs):

@@ -201,6 +201,7 @@ if __name__ == "__main__":
             la_lista=lt.subList(lista_resultado,1,10)
             header= ("code","time", "lat","long","mag","title", "depht", "cdi","mmi", "sig", "gap", "nst","magType","type")
             tabulador(la_lista, header)
+            
 
         elif int(inputs) == 5:
             sig= float(input(" La significancia mínima del evento a consultar:   "))
