@@ -381,7 +381,7 @@ def distancia_tierra(longitud1, latitud1, longitud2, latitud2):
     return distancia
 
 
-def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str,segmentos: int):
+def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str):
     """
     Función que soluciona el requerimiento 7
     """
