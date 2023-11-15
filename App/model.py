@@ -73,6 +73,9 @@ def new_data_structs():
                                     cmpfunction=comparar_mayor_menor)
     data_structs["requerimiento_7"]= mp.newMap(20,maptype="PROBING",
                                                loadfactor= 0.5)
+    data_structs["map_by_years"]= mp.newMap(20,maptype="PROBING",
+                                               loadfactor= 0.5)
+
     
     return data_structs
 
