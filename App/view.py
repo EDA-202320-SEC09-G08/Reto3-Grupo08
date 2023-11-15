@@ -208,7 +208,7 @@ if __name__ == "__main__":
             tabulador(la_lista, header)
             
 
-         elif int(inputs) == 5:
+        elif int(inputs) == 5:
             sig= float(input(" La significancia mínima del evento a consultar:   "))
             gap= float(input(" La distancia azimutal máxima del evento a consultar:   "))
             print("Significancia mínima: "+str(sig))
