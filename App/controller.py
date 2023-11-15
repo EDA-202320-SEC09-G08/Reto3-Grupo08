@@ -135,12 +135,36 @@ def req_3(control,mem,mags_min,prof_max):
 
 
 
-def req_4(data_structs,sig, gap):
+def req_4(control,mem,sig, gap):
     """
     Retorna el resultado del requerimiento 4
     """
     # TODO: Modificar el requerimiento 4
-    return model.req_4(data_structs,sig, gap)
+    start_time = get_time()
+    
+    if mem is True:
+        tracemalloc.start()
+        start_memory = get_memory()
+    
+    data_structs = control
+    resultado = model.req_4(data_structs, sig, gap)
+    
+    stop_time = get_time()
+    delta_Time = delta_time(start_time, stop_time)
+
+    if mem is True:
+        stop_memory = get_memory()
+        tracemalloc.stop()
+        delta_Memory = delta_memory(stop_memory, start_memory)
+        return resultado, delta_Time, delta_Memory
+
+    else:
+        return resultado, delta_Time
+    
+    
+    
+    #return model.req_4(data_structs,sig, gap)
+
 
 
 def req_5(control):

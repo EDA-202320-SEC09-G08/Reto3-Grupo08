@@ -67,6 +67,10 @@ def new_data_structs():
                                     cmpfunction=comparar_mayor_menor)
     data_structs["arbol_profundidad"]=om.newMap(omaptype="BST", 
                                     cmpfunction=comparar_mayor_menor)
+    data_structs["arbol_significancia"]=om.newMap(omaptype="BST", 
+                                    cmpfunction=comparar_mayor_menor)
+    data_structs["arbol_distancia"]=om.newMap(omaptype="BST", 
+                                    cmpfunction=comparar_mayor_menor)
     data_structs["requerimiento_7"]= mp.newMap(20,maptype="PROBING",
                                                loadfactor= 0.5)
     
@@ -86,6 +90,8 @@ def add_data_mapa(data_structs, data):
     add_info( data_structs, data)
     add_arbol1(data_structs["arbol_magnitudes"],data)
     add_arbol2(data_structs["arbol_profundidad"],data)
+    add_arbol3(data_structs["arbol_significancia"],data)
+    add_arbol4(data_structs["arbol_distancia"],data)
     add_mapa(data_structs,data)
     return data_structs
 
@@ -128,6 +134,30 @@ def add_arbol1( data_structs, data):
 def add_arbol2( data_structs, data):
     mapa=data_structs
     tiempo = data["depth"]
+    existe= om.contains(mapa, tiempo)
+    if existe==True:
+        entrada= om.get(mapa,tiempo)
+        valor= me.getValue(entrada)
+    else:
+        valor=lt.newList()
+        om.put(mapa,tiempo,valor)
+    lt.addLast(valor,data)  
+
+def add_arbol3( data_structs, data):
+    mapa=data_structs
+    tiempo = data["sig"]
+    existe= om.contains(mapa, tiempo)
+    if existe==True:
+        entrada= om.get(mapa,tiempo)
+        valor= me.getValue(entrada)
+    else:
+        valor=lt.newList()
+        om.put(mapa,tiempo,valor)
+    lt.addLast(valor,data)  
+
+def add_arbol4( data_structs, data):
+    mapa=data_structs
+    tiempo = data["gap"]
     existe= om.contains(mapa, tiempo)
     if existe==True:
         entrada= om.get(mapa,tiempo)
@@ -212,19 +242,21 @@ def req_4(data_structs,sig, gap):
     Función que soluciona el requerimiento 4
     """
     # TODO: Realizar el requerimiento 4
-    lista= lt.newList()
-    mapa=data_structs["fechaIndex"]
-    while lt.size(lista)< 15:
-        mayor=om.maxKey(mapa)
-        for x in om.get(mapa, mayor)["value"]:
-            if int(x["sig"])> sig and int(x["gap"])< gap:
-                lt.addLast(lista,x)
-        mapa= om.deleteMax(mapa)
-    if lt.size(lista)>15:
-        merg.sort(lista, sort_fecha)
-        lista= lt.subList(lista,1,15)
-    merg.sort(lista, sort_fecha)
-    return lista
+    resultado = lt.newList("ARRAY_LIST")
+    om_sign=data_structs["arbol_significancia"]
+    om_gaps = data_structs["arbol_distancia"]
+    lista = om.values(om_sign,sig,999999999999999999)
+    lista2 = om.values(om_gaps, 0, gap)
+    
+    
+    for elem in lt.iterator(lista):
+        for eleme in lt.iterator(elem):
+            if float(eleme["sig"])>= sig and float(eleme["gap"])<=gap:
+                lt.addLast(resultado,eleme)
+    quk.sort(resultado,cmp_t)
+    diccionario={"eventos": lt.size(lista2)+lt.size(lista2),
+                 "detalles": resultado}
+    return diccionario
 
 
 def req_5(data_structs):
