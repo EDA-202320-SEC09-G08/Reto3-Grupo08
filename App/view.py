@@ -139,7 +139,7 @@ def print_req_7(control,anio,titulo,propiedad_conteo,mem):
         Función que imprime la solución del Requerimiento 7 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 7
-    return controller.req_7(control,anio,titulo,propiedad_conteo)
+    return controller.req_7(control,anio,titulo,propiedad_conteo,mem)
 
 
 def print_req_8(control):
@@ -239,7 +239,7 @@ if __name__ == "__main__":
             anio= input("Cual es su año de preferencia: ")
             titulo= input("Cual título: ")
             propiedad_conteo= input("Qué propiedad de conteo se le facilita más: ")
-            print
+            data=print_req_7(control,anio,titulo,propiedad_conteo,mem)
 
         elif int(inputs) == 9:
             print_req_8(control)
