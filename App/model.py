@@ -243,7 +243,7 @@ def req_4(data_structs,min_sig,max_gap):
     """
     # TODO: Realizar el requerimiento 4
 
-    tree_by_sig = data_structs["tree_by_sig"]
+    tree_by_sig = data_structs["albol_significancia"]
 
     max_sig = om.maxKey(tree_by_sig)
 
@@ -315,7 +315,7 @@ def req_6(data_structs,year,lat,long,radius,n_events):
 
                 lt.addLast(lista_filtrados,terremoto)
 
-    order_by_sig = merg.sort(lista_filtrados,cmp_by_sig)
+    #order_by_sig = merg.sort(lista_filtrados,cmp_by_sig)
 
     max_sig_element = lt.getElement(order_by_sig,1)
 
@@ -328,7 +328,7 @@ def req_6(data_structs,year,lat,long,radius,n_events):
         event["diference"] = time_diference
         lt.addLast(near_events,event)
         
-    sorted_by_time_diference = merg.sort(eventos_cercanos,cmp_by_time_diferrence)
+   # sorted_by_time_diference = merg.sort(eventos_cercanos,cmp_by_time_diferrence)
 
     if lt.size(sorted_by_time_diference) > n_events:
 
