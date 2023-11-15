@@ -356,14 +356,11 @@ def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str):
         if el_anio==anio:
             if titulo in zona:
                 lt.addLast(sismos,fecha)
-    diccionario={}
+    lista= []
     for datos in lt.iterator(sismos):
         propiedad= datos[propiedad_conteo]
-        if diccionario.get(propiedad)==None:
-            diccionario[propiedad]=1
-        else:
-            diccionario[propiedad]+=1
-    return sismos, diccionario
+        lista.append(propiedad)
+    return sismos,lista
     
 
 
@@ -524,7 +521,7 @@ def haversine(lat1, lon1, lat2, lon2):
     dlon = lon2_rad - lon1_rad
 
     # Fórmula de Haversine
-    a = math.sin(dlat / 2)2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)2
+    #a = math.sin(dlat / 2)2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)2
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
     # Distancia en kilómetros

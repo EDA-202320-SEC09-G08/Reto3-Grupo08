@@ -172,8 +172,8 @@ def req_7(control, anio:str,titulo:str,propiedad_conteo:str,mem):
     
     data_structs = control
 
-    lista=model.req_7(data_structs,anio,titulo,propiedad_conteo,mem)[0]
-    diccionario= model.req_7(data_structs,anio,titulo,propiedad_conteo,mem)[1]
+    lista=model.req_7(data_structs,anio,titulo,propiedad_conteo)[0]
+    diccionario= model.req_7(data_structs,anio,titulo,propiedad_conteo)[1]
     stop_time = get_time()
     delta_Time = delta_time(start_time, stop_time)
 
