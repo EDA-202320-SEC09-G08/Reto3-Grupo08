@@ -396,6 +396,14 @@ def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str,segmentos: int)
         if el_anio==anio:
             if titulo in zona:
                 lt.addLast(sismos,fecha)
+    diccionario={}
+    for datos in lt.iterator(sismos):
+        propiedad= datos[propiedad_conteo]
+        if diccionario.get(propiedad)==None:
+            diccionario[propiedad]=1
+        else:
+            diccionario[propiedad]+=1
+    return diccionario
     
 
 
