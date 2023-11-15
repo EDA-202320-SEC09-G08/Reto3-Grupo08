@@ -91,12 +91,29 @@ def get_data(control, id):
     pass
 
 
-def req_1(control):
+def req_1(control,mem,fecha_i,fecha_f):
     """
     Retorna el resultado del requerimiento 1
     """
-    # TODO: Modificar el requerimiento 1
-    pass
+
+    start_time = get_time()
+    
+    if mem is True:
+        tracemalloc.start()
+        start_memory = get_memory()
+    
+    data_structs = control    
+    resultado= model.req_1(data_structs,fecha_i,fecha_f)
+    stop_time = get_time()
+    delta_Time = delta_time(start_time, stop_time)
+    if mem is True:
+        stop_memory = get_memory()
+        tracemalloc.stop()
+        delta_Memory = delta_memory(stop_memory, start_memory)
+        return resultado, delta_Time, delta_Memory
+    else:
+        return resultado, delta_Time
+
 
 
 def req_2(control):

@@ -80,12 +80,12 @@ def print_data(control, id):
     #TODO: Realizar la función para imprimir un elemento
     pass
 
-def print_req_1(control):
+def print_req_1(control,mem,fecha_i,fecha_f):
     """
         Función que imprime la solución del Requerimiento 1 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 1
-    pass
+    return controller.req_1(control,mem,fecha_i,fecha_f)
 
 
 def print_req_2(control):
@@ -186,7 +186,19 @@ if __name__ == "__main__":
             print("ULTIMOS REGISTROS")
             tabulador(ultimos,header)
         elif int(inputs) == 2:
-            print_req_1(control)
+            fecha_i= input("dame la fecha inicial de intervalo en formato %Y-%m-%dT%H:%M: ")
+            fecha_f= input("dame la fecha inicial de intervalo en formato %Y-%m-%dT%H:%M: ")
+            rpta= print_req_1(control,mem,fecha_i,fecha_f)[0]
+            primeros=lt.subList(rpta,1,3)
+            ultimos= lt.subList(rpta,lt.size(rpta)-2,3)
+
+            header= ("mag","lat","long","depth","sig","gap","nst","title","time")
+            print("PRIMEROS 3 REGISTROS")
+            tabulador(primeros,header)
+            print("--------------------")
+            print("ÚLTIMOS 3 REGISTRADOS")
+            tabulador(ultimos,header)
+
 
         elif int(inputs) == 3:
             print_req_2(control)

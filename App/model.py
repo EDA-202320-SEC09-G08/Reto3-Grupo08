@@ -202,12 +202,21 @@ def data_size(data_structs):
     pass
 
 
-def req_1(data_structs):
+def req_1(data_structs, fecha_i:str,fecha_f:str):
+
     """
     Función que soluciona el requerimiento 1
     """
     # TODO: Realizar el requerimiento 1
-    pass
+    resultado = lt.newList("ARRAY_LIST")
+    data= data_structs["mapa"]
+    valores= om.values(data,fecha_f,fecha_i)
+    for elem in lt.iterator(valores):
+        for elemento in lt.iterator(elem):
+            lt.addLast(resultado, elemento)
+    return resultado
+
+
 
 
 def req_2(data_structs):
@@ -415,7 +424,7 @@ def compararar_fechas(date1, date2):
     """
     if (date1 == date2):
         return 0
-    elif (date1 > date2):
+    elif (date1 < date2):
         return 1
     else:
         return -1
