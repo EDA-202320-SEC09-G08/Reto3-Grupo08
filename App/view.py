@@ -122,12 +122,12 @@ def print_req_5(control):
     pass
 
 
-def print_req_6(control):
+def print_req_6(control,year,lat,long,radius,n_events):
     """
         Función que imprime la solución del Requerimiento 6 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 6
-    respuesta= controller.req_4(control,sig, gap)
+    respuesta= controller.req_4(control,year,lat,long,radius,n_events)
 
     print(tabulate(lt.iterator(respuesta)))
 
@@ -217,12 +217,12 @@ if __name__ == "__main__":
             print_req_5(control)
 
         elif int(inputs) == 7:
-            anio= float(input(" Ingrese el año relevante a consultar (en formato “%Y”):  "))
-            latitud= float(input(" Ingrese la Latitud de referencia para el área de eventos a consultar:   "))
-            longitud=float(input("Ingrese la longitud de referencia para el área de eventos a consultar: " ))
-            radio=float(input("Ingrese el radio [km] del área circundante a consultar: " ))
-            numero_n=float(input("Ingrese el número de los N eventos de magnitud más cercana a mostrar: " ))
-            print_req_6(control,anio,latitud,longitud,radio,numero_n)
+            year= float(input(" Ingrese el año relevante a consultar (en formato “%Y”):  "))
+            lat= float(input(" Ingrese la Latitud de referencia para el área de eventos a consultar:   "))
+            long=float(input("Ingrese la longitud de referencia para el área de eventos a consultar: " ))
+            radius=float(input("Ingrese el radio [km] del área circundante a consultar: " ))
+            n_events=float(input("Ingrese el número de los N eventos de magnitud más cercana a mostrar: " ))
+            print_req_6(control,year,lat,long,radius,n_events)
 
         elif int(inputs) == 8:
             anio= input("Cual es su año de preferencia: ")

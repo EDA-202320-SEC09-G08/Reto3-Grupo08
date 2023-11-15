@@ -151,12 +151,12 @@ def req_5(control):
     # TODO: Modificar el requerimiento 5
     pass
 
-def req_6(control):
+def req_6(control,year,lat,long,radius,n_events):
     """
     Retorna el resultado del requerimiento 6
     """
     # TODO: Modificar el requerimiento 6
-    return model.req_6(data_structs,anio,latitud,longitud,radio,numero_n)
+    return model.req_6(control,year,lat,long,radius,n_events)
 
 
 def req_7(control, anio:str,titulo:str,propiedad_conteo:str,mem):
