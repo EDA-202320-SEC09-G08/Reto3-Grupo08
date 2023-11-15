@@ -126,7 +126,9 @@ def print_req_6(control):
         Función que imprime la solución del Requerimiento 6 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 6
-    pass
+    respuesta= controller.req_4(control,sig, gap)
+
+    print(tabulate(lt.iterator(respuesta)))
 
 
 def print_req_7(control):
@@ -212,7 +214,12 @@ if __name__ == "__main__":
             print_req_5(control)
 
         elif int(inputs) == 7:
-            print_req_6(control)
+            anio= float(input(" Ingrese el año relevante a consultar (en formato “%Y”):  "))
+            latitud= float(input(" Ingrese la Latitud de referencia para el área de eventos a consultar:   "))
+            longitud=float(input("Ingrese la longitud de referencia para el área de eventos a consultar: " ))
+            radio=float(input("Ingrese el radio [km] del área circundante a consultar: " ))
+            numero_n=float(input("Ingrese el número de los N eventos de magnitud más cercana a mostrar: " ))
+            print_req_6(control,anio,latitud,longitud,radio,numero_n)
 
         elif int(inputs) == 8:
             print_req_7(control)
