@@ -65,6 +65,8 @@ def new_data_structs():
                                     cmpfunction=comparar_mayor_menor)
     data_structs["arbol_profundidad"]=om.newMap(omaptype="BST", 
                                     cmpfunction=comparar_mayor_menor)
+    data_structs["requerimiento_7"]= mp.newMap(20,maptype="PROBING",
+                                               loadfactor= 0.5)
     
     return data_structs
 
@@ -83,7 +85,17 @@ def add_data_mapa(data_structs, data):
     add_arbol1(data_structs["arbol_magnitudes"],data)
     add_arbol2(data_structs["arbol_profundidad"],data)
     return data_structs
-
+def add_mapa(data_structs, data):
+    datastructs=data_structs["requerimiento_7"]
+    titulo= data["title"]
+    contiene= mp.contains(datastructs,titulo)
+    if contiene:
+        title= me.getValue(mp.get(datastructs,titulo))
+    else:
+        title= lt.newList("ARRAY_LIST")
+        mp.put(datastructs,titulo,title)
+    lt.addLast(title,data)
+    
 def add_info( data_structs, data):
     
     mapa= data_structs["mapa"]
@@ -232,7 +244,7 @@ def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str,segmentos: int)
     Función que soluciona el requerimiento 7
     """
     # TODO: Realizar el requerimiento 7
-    mapa= data_structs["mag"]
+    mapa= data_structs["arbol_magnitudes"]
     sismos=lt.newList("ARRAY_LIST")
     for fecha in lt.iterator(mapa):
         la_fecha= fecha["time"]
@@ -242,6 +254,7 @@ def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str,segmentos: int)
         if el_anio==anio:
             if titulo in zona:
                 lt.addLast(sismos,fecha)
+    
 
 
 def req_8(data_structs):
