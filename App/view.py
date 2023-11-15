@@ -134,12 +134,12 @@ def print_req_6(control):
     print(tabulate(lt.iterator(respuesta)))
 
 
-def print_req_7(control):
+def print_req_7(control,anio,titulo,propiedad_conteo,mem):
     """
         Función que imprime la solución del Requerimiento 7 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 7
-    pass
+    return controller.req_7(control,anio,titulo,propiedad_conteo)
 
 
 def print_req_8(control):
@@ -236,7 +236,10 @@ if __name__ == "__main__":
             print_req_6(control,anio,latitud,longitud,radio,numero_n)
 
         elif int(inputs) == 8:
-            print_req_7(control)
+            anio= input("Cual es su año de preferencia: ")
+            titulo= input("Cual título: ")
+            propiedad_conteo= input("Qué propiedad de conteo se le facilita más: ")
+            print
 
         elif int(inputs) == 9:
             print_req_8(control)

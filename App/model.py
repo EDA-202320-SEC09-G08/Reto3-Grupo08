@@ -403,7 +403,7 @@ def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str):
             diccionario[propiedad]=1
         else:
             diccionario[propiedad]+=1
-    return diccionario
+    return sismos, diccionario
     
 
 

@@ -182,12 +182,34 @@ def req_6(control):
     return model.req_6(data_structs,anio,latitud,longitud,radio,numero_n)
 
 
-def req_7(control):
+def req_7(control, anio:str,titulo:str,propiedad_conteo:str,mem):
     """
     Retorna el resultado del requerimiento 7
     """
     # TODO: Modificar el requerimiento 7
-    pass
+    start_time = get_time()
+    
+    if mem is True:
+        tracemalloc.start()
+        start_memory = get_memory()
+    
+    data_structs = control
+
+    lista=model.req_7(data_structs,anio,titulo,propiedad_conteo,mem)[0]
+    diccionario= model.req_7(data_structs,anio,titulo,propiedad_conteo,mem)[1]
+    stop_time = get_time()
+    delta_Time = delta_time(start_time, stop_time)
+
+    if mem is True:
+        stop_memory = get_memory()
+        tracemalloc.stop()
+        delta_Memory = delta_memory(stop_memory, start_memory)
+        return lista,diccionario, delta_Time, delta_Memory
+
+    else:
+        return lista,diccionario, delta_Time
+
+
 
 
 def req_8(control):
