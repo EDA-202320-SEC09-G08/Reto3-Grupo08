@@ -243,7 +243,7 @@ def req_4(data_structs,min_sig,max_gap):
     """
     # TODO: Realizar el requerimiento 4
 
-    tree_by_sig = data_structs["tree_by_sig"]
+    tree_by_sig = data_structs["albol_significancia"]
 
     max_sig = om.maxKey(tree_by_sig)
 
@@ -319,16 +319,18 @@ def req_6(data_structs,year,lat,long,radius,n_events):
 
     max_sig_element = lt.getElement(order_by_sig,1)
 
+
     date_x = datetime.strptime(max_sig_element["time"], "%Y-%m-%dT%H:%M")
-    
+
     near_events = lt.newList("ARRAY_LIST")
     for event in lt.iterator(order_by_sig):
         date_event = datetime.strptime(event["time"], "%Y-%m-%dT%H:%M")
         time_diference = abs(date_event - date_x)
         event["diference"] = time_diference
         lt.addLast(near_events,event)
-        
-    sorted_by_time_diference = merg.sort(eventos_cercanos,cmp_by_time_diferrence)
+
+
+    sorted_by_time_diference = merg.sort(near_events,cmp_by_time_diferrence)
 
     if lt.size(sorted_by_time_diference) > n_events:
 
@@ -528,3 +530,10 @@ def haversine(lat1, lon1, lat2, lon2):
     distance = R * c
 
     return distance
+
+def cmp_by_time_diferrence(data_1,data_2):
+
+    if data_1["diference"] < data_2["diference"]:
+        return True
+    else:
+        return False
