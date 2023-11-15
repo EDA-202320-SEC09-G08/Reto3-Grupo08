@@ -67,10 +67,10 @@ def new_data_structs():
                                     cmpfunction=comparar_mayor_menor)
     data_structs["arbol_profundidad"]=om.newMap(omaptype="BST", 
                                     cmpfunction=comparar_mayor_menor)
-    data_structs["arbol_significancia"]=om.newMap(omaptype="RBT", 
-                                    cmpfunction=comparar_mayor_menor)
-    data_structs["arbol_distancia"]=om.newMap(omaptype="BST", 
-                                    cmpfunction=comparar_mayor_menor)
+    #data_structs["arbol_significancia"]=om.newMap(omaptype="RBT", 
+     #                               cmpfunction=comparar_mayor_menor)
+    #data_structs["arbol_distancia"]=om.newMap(omaptype="BST", 
+     #                               cmpfunction=comparar_mayor_menor)
     data_structs["requerimiento_7"]= mp.newMap(20,maptype="PROBING",
                                                loadfactor= 0.5)
     data_structs["map_by_years"]= mp.newMap(20,maptype="PROBING",
@@ -93,8 +93,8 @@ def add_data_mapa(data_structs, data):
     add_info( data_structs, data)
     add_arbol1(data_structs["arbol_magnitudes"],data)
     add_arbol2(data_structs["arbol_profundidad"],data)
-    add_arbol3(data_structs["arbol_significancia"],data)
-    add_arbol4(data_structs["arbol_distancia"],data)
+    #add_arbol3(data_structs["arbol_significancia"],data)
+    #add_arbol4(data_structs["arbol_distancia"],data)
     add_mapa(data_structs,data)
     return data_structs
 

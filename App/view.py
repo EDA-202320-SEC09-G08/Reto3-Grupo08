@@ -31,6 +31,7 @@ from DISClib.DataStructures import mapentry as me
 assert cf
 from tabulate import tabulate
 import traceback
+import matplotlib.pyplot as plt
 
 """
 La vista se encarga de la interacción con el usuario
@@ -230,7 +231,11 @@ if __name__ == "__main__":
             propiedad_conteo= input("Qué propiedad de conteo se le facilita más: ")
             segmentos= int(input("Con cuántos segmentos desea dividir el plot?: "))
             data=print_req_7(control,anio,titulo,propiedad_conteo,mem)[1]
-            print(data)
+
+            plt.hist(data,bins=segmentos,alpha=0.5)
+            plt.title("Histograma de "+str(propiedad_conteo)+" en "+str(titulo))
+            plt.xlabel(propiedad_conteo)
+            plt.show()
 
         elif int(inputs) == 9:
             print_req_8(control)
