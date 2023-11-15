@@ -193,6 +193,7 @@ if __name__ == "__main__":
             ultimos= lt.subList(rpta,lt.size(rpta)-2,3)
 
             header= ("mag","lat","long","depth","sig","gap","nst","title","time")
+            print("La cantidad de datos encontrados son: "+str(lt.size(rpta)))
             print("PRIMEROS 3 REGISTROS")
             tabulador(primeros,header)
             print("--------------------")
@@ -243,7 +244,9 @@ if __name__ == "__main__":
             propiedad_conteo= input("Qué propiedad de conteo se le facilita más: ")
             segmentos= int(input("Con cuántos segmentos desea dividir el plot?: "))
             data=print_req_7(control,anio,titulo,propiedad_conteo,mem)[1]
-
+            data2= print_req_7(control,anio,titulo,propiedad_conteo,mem)[0]
+            header= ("time","lat","long","title","code","mag")
+            tabulador(data2,header)
             plt.hist(data,bins=segmentos,alpha=0.5)
             plt.title("Histograma de "+str(propiedad_conteo)+" en "+str(titulo))
             plt.xlabel(propiedad_conteo)
