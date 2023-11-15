@@ -284,118 +284,61 @@ def req_5(data_structs):
     pass
 
 
-def req_6(data_structs,anio,latitud,longitud,radio,numero_n):
+def req_6(data_structs,year,lat,long,radius,n_events):
     """
     Función que soluciona el requerimiento 6
     """
     # TODO: Realizar el requerimiento 6
+    map_by_years = data_structs["map_by_years"]
+
+    entry_map_year = mp.get(map_by_years,year)
+
+    lista_filtrados = lt.newList("ARRAY_LIST")
+
+    if entry_map_year:
+
+        value_tree_year = me.getValue(entry_map_year)
+
+        min_key_tree = om.minKey(value_tree_year)
+
+        min_key_tree = om.maxKey(value_tree_year)
+
+        list_values_tree = om.values(value_tree_year,min_key_tree,min_key_tree)
+
+        for terremoto in lt.iterator(list_values_tree):
+
+            haversine_function = haversine(lat,long,terremoto["lat"],terremoto["long"])
+
+            if haversine_function <= radius:
+
+                terremoto["distance"] = haversine_function
+
+                lt.addLast(lista_filtrados,terremoto)
+
+    order_by_sig = merg.sort(lista_filtrados,cmp_by_sig)
+
+    max_sig_element = lt.getElement(order_by_sig,1)
+
+    date_x = datetime.strptime(max_sig_element["time"], "%Y-%m-%dT%H:%M")
     
-    anio_inio= anio+"-01-01T01:01"
-    anio_inio=datetime.datetime.strptime(anio_inio, "%Y-%m-%dT%H:%M")
-    anio_final= anio+"-12-31T23:59"
-    anio_final=datetime.datetime.strptime(anio_final, "%Y-%m-%dT%H:%M")
-
-    eventos_anio= om.values(data_structs["mapa"],anio_inio,anio_final)
-
-    radio_año= lt.newList()
-    radio_año_ord= om.newMap("RBT",menor_o_mayor)
-
-    for x in lt.iterator(eventos_anio):
-        for y in lt.iterator(x):
-            longitud1= y["long"]
-            latitud1= y["lat"]
-            if radio >= distancia_tierra(longitud1, latitud1, longitud, latitud):
-                lt.addLast(radio_año,y)
-
-                fecha = y['time']
- 
-                if om.contains(radio_año_ord, fecha):
-                    lt.addLast(om.get(radio_año_ord ,fecha)["value"], y)
+    near_events = lt.newList("ARRAY_LIST")
+    for event in lt.iterator(order_by_sig):
+        date_event = datetime.strptime(event["time"], "%Y-%m-%dT%H:%M")
+        time_diference = abs(date_event - date_x)
+        event["diference"] = time_diference
+        lt.addLast(near_events,event)
         
-                else:
-                    lista_terremotos= lt.newList("SINGLE_LINKED")
-                    om.put(radio_año_ord,fecha, lista_terremotos)
-                    lt.addLast(om.get(radio_año_ord,fecha)["value"], y)
-        mas_sig= None
-    ev_sig= 0
-  
-    for x in lt.iterator(radio_año):
-        if int(x["sig"])> ev_sig:
-            ev_sig= int(x["sig"])
-            mas_sig= x
+    sorted_by_time_diference = merg.sort(eventos_cercanos,cmp_by_time_diferrence)
 
+    if lt.size(sorted_by_time_diference) > n_events:
 
-    mayores_sig= lt.newList()
-    lista1=om.values(radio_año_ord,mas_sig["time"],datetime.datetime.strptime("2024-01-01T01:01", "%Y-%m-%dT%H:%M"))
-    for x in lt.iterator(lista1):
-        for y in lt.iterator(x):
-            lt.addLast(mayores_sig,y)
-    lt.removeFirst(mayores_sig)
-    if lt.size(mayores_sig)> numero_n:
-        mayores_sig= lt.subList(mayores_sig,1,numero_n)
+        return_list = lt.subList(sorted_by_time_diference,1,n_events+2)
 
+    else:
 
+        return_list = sorted_by_time_diference
 
-    menores_sig= lt.newList()
-    lista2= om.values(radio_año_ord, datetime.datetime.strptime("2000-01-01T01:01", "%Y-%m-%dT%H:%M"), mas_sig["time"])
-    
-    for x in lt.iterator(lista2):
-        for y in lt.iterator(x):
-            lt.addLast(menores_sig, y)
-    final=lt.newList()
-    mapa_final= om.newMap("RBT",menor_o_mayor)
-
-    for x in lt.iterator(menores_sig):
-        lt.addLast(final,x)
-    for x in lt.iterator(mayores_sig):
-        lt.addLast(final,x)
-    
-    for x in lt.iterator(final):
-        fecha = x['time']
- 
-        if om.contains(mapa_final, fecha):
-            lt.addLast(om.get(mapa_final ,fecha)["value"], x)
-        
-        else:
-            lista_terremotos= lt.newList("SINGLE_LINKED")
-            om.put(mapa_final,fecha, lista_terremotos)
-            lt.addLast(om.get(mapa_final,fecha)["value"], x)
-
-    
-
-    
-    res=om.valueSet(mapa_final)
-    res_ord= lt.newList()
-    for x in lt.iterator(res):
-        for y in lt.iterator(x):
-            lt.addLast(res_ord, y)
-    eventos_en_radio= 0
-    for x in lt.iterator(om.valueSet(radio_año_ord)) :
-        for y in lt.iterator(x):
-            Numero_eventos_en_radio+=1
-
-
-
-    li_res=()
-    return eventos_en_radio
-
-
-
-
-def distancia_tierra(longitud1, latitud1, longitud2, latitud2):
-    longitud1 = math.radians(float(longitud1))
-    latitud1 = math.radians(float(latitud1))
-    longitud2 = math.radians(float(longitud2))
-    latitud2 = math.radians(float(latitud2))
-
-    distancia = 2 * math.asin(
-        math.sqrt(
-            math.sin(0.5 * (longitud2 - longitud1))**2 +
-            math.cos(longitud1) * math.cos(longitud2) * math.sin(0.5 * (latitud2 - latitud1))**2
-        )
-    ) * 6371
-
-    return distancia
+    return return_list
 
 
 def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str):
@@ -527,9 +470,64 @@ def add_data_tree_by_sig_2(data_structs,terremoto):
 
     return data_structs
 
-def cmp_by_time(data_1,data_2):
+def cmp_by_time (data_1,data_2):
     
     if data_1["time"]>data_2["time"]:
         return True
     else:
         return False
+    
+def compare_dates(data_1,data_2):
+    if data_1==data_2:
+        return 0
+    elif data_1>data_2:
+        return 1
+    else:
+        return -1
+    
+def add_data_map_by_years_2(data_structs,terremoto):
+
+    map_by_years = data_structs["map_by_years"]
+
+    year = terremoto["time"][0:4]
+
+    entry_map_years = mp.get(map_by_years,year)
+
+    if entry_map_years:
+
+        value_tree_year = me.getValue(entry_map_years)
+
+        om.put(value_tree_year,terremoto)
+
+    else:
+
+        new_value_tree_year = om.newMap(omaptype="RBT",cmpfunction=compare_dates)
+
+        om.put(new_value_tree_year,terremoto)
+
+        mp.put(map_by_years,year,new_value_tree_year)
+
+    return data_structs
+
+def haversine(lat1, lon1, lat2, lon2):
+
+    R = 6371.0
+
+    # Convertir las latitudes y longitudes de grados a radianes
+    lat1_rad = math.radians(lat1)
+    lon1_rad = math.radians(lon1)
+    lat2_rad = math.radians(lat2)
+    lon2_rad = math.radians(lon2)
+
+    # Diferencias de latitud y longitud
+    dlat = lat2_rad - lat1_rad
+    dlon = lon2_rad - lon1_rad
+
+    # Fórmula de Haversine
+    a = math.sin(dlat / 2)2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    # Distancia en kilómetros
+    distance = R * c
+
+    return distance
