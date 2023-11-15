@@ -237,26 +237,43 @@ def req_3(data_structs,mag_min:float,prof_max:float):
     return diccionario
 
 
-def req_4(data_structs,sig, gap):
+def req_4(data_structs,min_sig,max_gap):
     """
     Función que soluciona el requerimiento 4
     """
     # TODO: Realizar el requerimiento 4
-    resultado = lt.newList("ARRAY_LIST")
-    om_sign=data_structs["arbol_significancia"]
-    om_gaps = data_structs["arbol_distancia"]
-    lista = om.values(om_sign,sig,999999999999999999)
-    lista2 = om.values(om_gaps, 0, gap)
-    
-    
-    for elem in lt.iterator(lista):
-        for eleme in lt.iterator(elem):
-            if float(eleme["sig"])>= sig and float(eleme["gap"])<=gap:
-                lt.addLast(resultado,eleme)
-    quk.sort(resultado,cmp_t)
-    diccionario={"eventos": lt.size(lista2)+lt.size(lista2),
-                 "detalles": resultado}
-    return diccionario
+
+    tree_by_sig = data_structs["tree_by_sig"]
+
+    max_sig = om.maxKey(tree_by_sig)
+
+    keys = om.keys(tree_by_sig,min_sig,max_sig)
+
+    lista_filtrados = lt.newList("ARRAY_LIST")
+
+    for sig in lt.iterator(keys):
+
+        list_value_sig = me.getValue(om.get(tree_by_sig,sig))
+
+        for terremoto in lt.iterator(list_value_sig):
+
+            if terremoto["gap"] <= max_gap:
+
+                lt.addLast(lista_filtrados,terremoto)
+
+
+    ordenamiento_por_fechas = merg.sort(lista_filtrados,cmp_by_time)
+
+    if lt.size(ordenamiento_por_fechas) > 15:
+
+        lista_return = lt.subList(ordenamiento_por_fechas,1,15)
+
+    else:
+
+        lista_return = ordenamiento_por_fechas
+
+
+    return lista_return
 
 
 def req_5(data_structs):
@@ -484,3 +501,35 @@ def menor_o_mayor(mag1, mag2):
     
 def sort_fecha(data1, data2):
     return data1["time"] >data2["time"]
+
+def add_data_tree_by_sig_2(data_structs,terremoto):
+
+    arbol_by_sig = data_structs["tree_by_sig"]
+
+    sig = terremoto["sig"]
+
+    entry_tree = om.get(arbol_by_sig,sig)
+
+    if entry_tree:
+
+        value_list_sig = me.getValue(entry_tree)
+
+        lt.addLast(value_list_sig,terremoto)
+
+    else:
+
+        new_value_list_sig = lt.newList("ARRAY_LIST")
+
+        lt.addLast(new_value_list_sig,terremoto)
+
+        om.put(arbol_by_sig,sig,new_value_list_sig)
+
+
+    return data_structs
+
+def cmp_by_time(data_1,data_2):
+    
+    if data_1["time"]>data_2["time"]:
+        return True
+    else:
+        return False

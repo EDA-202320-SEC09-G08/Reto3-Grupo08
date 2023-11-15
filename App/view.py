@@ -103,17 +103,15 @@ def print_req_3(control,mem,mags_min,prof_max):
     return controller.req_3(control,mem,mags_min,prof_max)
 
 
-def print_req_4(control,mem,sig, gap):
+def print_req_4(control,min_sig,max_gap):
     """
         Función que imprime la solución del Requerimiento 4 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 4
     
-    return controller.req_4(control,mem,sig,gap)
-    
-    #respuesta= controller.req_4(control,sig, gap)
+    respuesta= controller.req_4(control,min_sig,max_gap)
 
-   # print (tabulate(lt.iterator(respuesta)))
+    print (tabulate(lt.iterator(respuesta)))
 
 
 def print_req_5(control):
@@ -209,20 +207,11 @@ if __name__ == "__main__":
             
 
         elif int(inputs) == 5:
-            sig= float(input(" La significancia mínima del evento a consultar:   "))
-            gap= float(input(" La distancia azimutal máxima del evento a consultar:   "))
-            print("Significancia mínima: "+str(sig))
-            print("Distancia azimutal máxima: "+str(gap))
-            data = print_req_4(control, mem, sig,gap)
-
-            print(data[0]["eventos"])
-            print(lt.size(data[0]["detalles"]))
-            lista_resultado= data[0]["detalles"]
-            
-            la_lista=lt.subList(lista_resultado,1,15)
-            header= ("code","time", "lat","long","mag","title", "depht", "cdi","mmi", "sig", "gap", "nst","magType","type")
-            tabulador(la_lista, header)
-            #print_req_4(control, sig, gap)
+            min_sig= float(input(" La significancia mínima del evento a consultar:   "))
+            max_gap= float(input(" La distancia azimutal máxima del evento a consultar:   "))
+            print("Significancia mínima: "+str(min_sig))
+            print("Distancia azimutal máxima: "+str(max_gap))
+            print_req_4(control,  min_sig,max_gap)
 
         elif int(inputs) == 6:
             print_req_5(control)
