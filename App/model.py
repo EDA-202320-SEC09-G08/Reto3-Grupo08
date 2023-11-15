@@ -67,7 +67,7 @@ def new_data_structs():
                                     cmpfunction=comparar_mayor_menor)
     data_structs["arbol_profundidad"]=om.newMap(omaptype="BST", 
                                     cmpfunction=comparar_mayor_menor)
-    data_structs["arbol_significancia"]=om.newMap(omaptype="BST", 
+    data_structs["arbol_significancia"]=om.newMap(omaptype="RBT", 
                                     cmpfunction=comparar_mayor_menor)
     data_structs["arbol_distancia"]=om.newMap(omaptype="BST", 
                                     cmpfunction=comparar_mayor_menor)
@@ -540,3 +540,8 @@ def cmp_by_time_diferrence(data_1,data_2):
         return True
     else:
         return False
+def cmp_by_sig(data_1,data_2):
+    if data_1
+    
+   # if data_1[“sig”] > data_2[“sig”]:
+   # return True
