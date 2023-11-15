@@ -239,7 +239,8 @@ if __name__ == "__main__":
             anio= input("Cual es su año de preferencia: ")
             titulo= input("Cual título: ")
             propiedad_conteo= input("Qué propiedad de conteo se le facilita más: ")
-            data=print_req_7(control,anio,titulo,propiedad_conteo,mem)
+            data=print_req_7(control,anio,titulo,propiedad_conteo,mem)[1]
+            print(data)
 
         elif int(inputs) == 9:
             print_req_8(control)
