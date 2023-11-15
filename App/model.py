@@ -346,9 +346,9 @@ def req_7(data_structs, anio:str,titulo:str,propiedad_conteo:str):
     Función que soluciona el requerimiento 7
     """
     # TODO: Realizar el requerimiento 7
-    mapa= data_structs["arbol_magnitudes"]
+    lista= data_structs["cantidad_datos"]
     sismos=lt.newList("ARRAY_LIST")
-    for fecha in lt.iterator(mapa):
+    for fecha in lt.iterator(lista):
         la_fecha= fecha["time"]
         el_anio= la_fecha[:4]
         zona= fecha["title"]
