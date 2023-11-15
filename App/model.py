@@ -86,7 +86,9 @@ def add_data_mapa(data_structs, data):
     add_info( data_structs, data)
     add_arbol1(data_structs["arbol_magnitudes"],data)
     add_arbol2(data_structs["arbol_profundidad"],data)
+    add_mapa(data_structs,data)
     return data_structs
+
 def add_mapa(data_structs, data):
     datastructs=data_structs["requerimiento_7"]
     titulo= data["title"]
